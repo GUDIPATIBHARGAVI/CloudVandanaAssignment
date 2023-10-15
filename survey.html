@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Survey Form</title>
+    <style>
+      body {
+        background-color: #3498db; /* Blue background */
+        color: white;
+        text-align: center;
+      }
+      form {
+        background-color: white;
+        display: inline-block;
+        padding: 20px;
+        border-radius: 10px;
+      }
+      label {
+        color: #3498db; /* Blue label text color */
+      }
+      .form-group {
+        margin-bottom: 10px;
+        text-align: left;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Survey Form</h2>
+    <form id="surveyForm">
+      <div class="form-group">
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName" required />
+      </div>
+
+      <div class="form-group">
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" required />
+      </div>
+
+      <div class="form-group">
+        <label for="dob">Date of Birth:</label>
+        <input type="date" id="dob" name="dob" required />
+      </div>
+
+      <div class="form-group">
+        <label for="country">Country:</label>
+        <select id="country" name="country" required>
+          <option value="USA">USA</option>
+          <option value="Canada">Canada</option>
+          <!-- Add more countries here -->
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Gender:</label><br />
+        <input type="checkbox" id="male" name="gender" value="male" />
+        <label for="male">Male</label><br />
+        <input type="checkbox" id="female" name="gender" value="female" />
+        <label for="female">Female</label><br />
+        <input type="checkbox" id="other" name="gender" value="other" />
+        <label for="other">Other</label><br />
+      </div>
+
+      <div class="form-group">
+        <label for="profession">Profession:</label>
+        <input type="text" id="profession" name="profession" required />
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required />
+      </div>
+
+      <div class="form-group">
+        <label for="mobile">Mobile Number:</label>
+        <input type="tel" id="mobile" name="mobile" required />
+      </div>
+
+      <button type="button" id="resetButton" onclick="resetForm()">
+        Reset
+      </button>
+      <button type="button" id="submitButton" onclick="submitForm()">
+        Submit
+      </button>
+    </form>
+
+    <div id="popup" style="display: none">
+      <h3>Survey Form Data:</h3>
+      <p id="popupData"></p>
+    </div>
+
+    <script>
+      function resetForm() {
+        document.getElementById("surveyForm").reset();
+      }
+
+      function submitForm() {
+        const firstName = document.getElementById("firstName").value;
+        const lastName = document.getElementById("lastName").value;
+        const dob = document.getElementById("dob").value;
+        const country = document.getElementById("country").value;
+        const gender = Array.from(
+          document.querySelectorAll('input[name="gender"]:checked')
+        ).map((e) => e.value);
+        const profession = document.getElementById("profession").value;
+        const email = document.getElementById("email").value;
+        const mobile = document.getElementById("mobile").value;
+
+        // Check if any of the mandatory fields are empty
+        if (
+          !firstName ||
+          !lastName ||
+          !dob ||
+          !country ||
+          gender.length === 0 ||
+          !profession ||
+          !email ||
+          !mobile
+        ) {
+          alert(
+            "All fields are mandatory. Please fill in all required fields."
+          );
+          return;
+        }
+
+        // Display data in the popup
+        const popupData = `
+                <b>First Name:</b> ${firstName}<br>
+                <b>Last Name:</b> ${lastName}<br>
+                <b>Date of Birth:</b> ${dob}<br>
+                <b>Country:</b> ${country}<br>
+                <b>Gender:</b> ${gender.join(", ")}<br>
+                <b>Profession:</b> ${profession}<br>
+                <b>Email:</b> ${email}<br>
+                <b>Mobile Number:</b> ${mobile}
+            `;
+        document.getElementById("popupData").innerHTML = popupData;
+
+        // Show the popup
+        const popup = document.getElementById("popup");
+        popup.style.display = "block";
+
+        // Reset the form after displaying the data
+        document.getElementById("surveyForm").reset();
+      }
+    </script>
+  </body>
+</html>
